@@ -5,6 +5,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.template import loader
 import json
 # Create your views here.
+import gzip
 
 pacients = {}
 
@@ -15,8 +16,7 @@ def recive_data(request,id):
     it will recive and storage the date to be showed 
     '''
     if(request.method == 'POST'): 
-        msg_bin = request.body #pegamos os dados passados em binario
-        msg = json.loads( msg_bin.decode("UTF-8").replace("'",'"') ) # convertemos esses dados pra um dicionario
+        msg = request.POST #pegamos os dados passados em binario
         pacients[id] = msg
         print(id)
     else:
@@ -31,5 +31,5 @@ def show_data(request):
     except IndexError:
         lista_campos = []
     lista_dados_por_paciente = [ [pacients[b][a] for a in lista_campos] for b in lista_nomes ]
-    context = { 'nomes_dado':zip(lista_nomes,lista_dados_por_paciente), 'campos':lista_campos }
+    context = { 'nomes_dado':zip(lista_nomes,lista_dados_por_paciente), 'campos':lista_campos, 'tempo_espera':1000 }
     return HttpResponse(template.render(context,request))

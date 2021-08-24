@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Pacientes</title>
+</head>
+<body>
+    <div style="display: grid; place-items: center;">
+        {% if num_pacientes %}
+        <table >
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    {%for campo in campos%}
+                        <th>{{campo}}</th>
+                    {% endfor %}        
+                </tr>        
+            </thead>
+            <tbody>
+                {% for nome,dados in pacientes_nome_dados %}
+                    <tr>
+                        <form action="gerador/editar/{{nome}}/" method="POST">{% csrf_token %}
+                            <td>{{nome}}</td>
+                            {% for campo,dado,tipo_dado in dados %}
+                                <td>  <input name="{{campo}}" type="{{tipo_dado}}" value="{{ dado }}"  style="width: 95%; height: 40px;"> </td>
+                            {% endfor %}
+                            <td> <input type="submit" value="Editar"> </td>
+                        </form>
+                        <form action="gerador/remover/{{nome}}/" method="POST">{% csrf_token %}
+                            <td> <input type="submit" value="remover"> </td>
+                        </form>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <h1>Nenhum paciente registrado</h1>
+        {% endif %}
+        <form action="gerador/add/" method="POST">{% csrf_token %}
+            <td> <input type="submit"  value="adicionar"> </td>
+        </form>
+    </div>
+</body>
+</html>
