@@ -24,47 +24,63 @@ def go_home():
     return redirect("listar_pacientes")
     
 def add_paciente(request):
-    if(request.method == 'POST'):
+    '''
+    função chamada pela url de adição de paciente
+    '''
+    if(request.method == 'POST'):# se metodo post
         #Geramos um identificador aleatorio
-        nome = util.get_random_string(LENGTH_DO_IDENTIFICADOR)
-        while(nome in pacientes):
+        nome = util.get_random_string(LENGTH_DO_IDENTIFICADOR) # gera um identificador aleatorio para o dispostivo
+        while(nome in pacientes): # se o nome em uso gera outro ate achar um valido
             #caso esse identificador ja esteja me uso geramos outro ate nao estar mais
             nome = util.get_random_string(LENGTH_DO_IDENTIFICADOR)
-        pacientes[nome]=[0 if(a=="number") else "" for a in TIPO_DOS_DADOS] # iniciamos os dados do paciente como 'nulos', o para numero e string vazia para nao numeros
-        dispositivos.add_paciente(nome,pacientes[nome]) #adicionamos o paciente no gestor de dispositivos
+        pacientes[nome]=[0 if(a=="number") else "" for a in TIPO_DOS_DADOS] # iniciamos os dados do dispositivo como 'nulos', o para numero e string vazia para nao numeros
+        dispositivos.add_paciente(nome,pacientes[nome]) #adicionamos o dispostivo no gestor de dispositivos
     return go_home() # redirecionamos o request para home page
 
 def editar_paciente(request,nome):
-    if(nome in pacientes and request.method == 'POST'):
+    '''
+    Função que lida com a edição do paciente
+    '''
+    if(nome in pacientes and request.method == 'POST'):# se post
         try:
-            dados = [request.POST.get(a) for a in sequencia_dados]
-            pacientes[nome]= dados
+            dados = [request.POST.get(a) if(TIPO_DOS_DADOS[n] != "number") else float(request.POST.get(a)) for n,a in enumerate(sequencia_dados)] # tentamos recupera todos so dados nos seus ticos corretos
+            pacientes[nome]= dados# alteramos os dados na memoria do sistema
+            #entao mechemos na threads que fica enviando os dados periodicamente
             dispositivos.remover_paciente(nome) #destruimos a thread antiga que tinha os dados erados
             dispositivos.add_paciente(nome,pacientes[nome])# e criamos uma thread nova com os dados corretos
         except:
             pass
-    return go_home()
+    return go_home()# redirecionamos para home page
 
 def remove_paciente(request,nome):
-    if( nome in pacientes and request.method == 'POST'):
+    '''
+    função que lida com a remoção de paciente
+    '''
+    if( nome in pacientes and request.method == 'POST'):# se POST
         try:
-            dispositivos.remover_paciente(nome)
-            del(pacientes[nome])
-        except:
+            dispositivos.remover_paciente(nome) #removemos o dispositivo
+            del(pacientes[nome])# deletamos do sistema
+        except:# caso de erro é pois ele nao esta no sistema, simplismente colocamos qual o codigo erdo no terminal
             print(f"nao foi poscivel deletar paciente com identificação: {nome} ")
-    return go_home()
+    return go_home()#redirecionamos para home page
 
 def get_pacient_data():
-    pacientes_nomes = [a for a in pacientes]
-    pacientes_dados = [ [(campo,dado,tipo) for campo,dado,tipo in zip(sequencia_dados, pacientes[a],TIPO_DOS_DADOS)] for a in pacientes]
-    return { "campos":sequencia_dados,"pacientes_nome_dados":zip(pacientes_nomes,pacientes_dados), 'num_pacientes':len(pacientes)!=0 }
+    '''
+    Função que retorna os dados dos paciente no sistema, usada internamente para monta home page
+    '''
+    pacientes_nomes = [a for a in pacientes]#salvamos os domes do paciente, identificador dos dispositvos
+    pacientes_dados = [ [(campo,dado,tipo) for campo,dado,tipo in zip(sequencia_dados, pacientes[a],TIPO_DOS_DADOS)] for a in pacientes]# salvamos os dados dos sensores
+    return { "campos":sequencia_dados,"pacientes_nome_dados":zip(pacientes_nomes,pacientes_dados), 'num_pacientes':len(pacientes)!=0 } # retornamos um dicionario contendo os dados nescessarios para renderizar o html da home page
 
 def pagina_de_pacientes(request):
+    '''
+    função que gera a home page
+    '''
     try:
-        util.ping((IP,BASE_PORT))    
+        util.ping((IP,BASE_PORT)) #verificamos se o servidor, servidor do projeto que se comunica com a interfacie do medico, esta online
     except:
-        template = loader.get_template("server_off.html")
-        return HttpResponse(template.render({"tempo_espera":TEMPO_DE_ENVIO_EM_SEGUNDOS*1000},request))
-    contexto = get_pacient_data()
-    template = loader.get_template("pacientes.html")
-    return HttpResponse(template.render(contexto,request))
+        template = loader.get_template("server_off.html")# caso der erro renderizamos um hmtl padrao de erro
+        return HttpResponse(template.render({"tempo_espera":TEMPO_DE_ENVIO_EM_SEGUNDOS*1000},request)) # aqui é feita a montagem do html
+    contexto = get_pacient_data() # pegamos os dados nescessarios para monta o html da home page
+    template = loader.get_template("pacientes.html") # caregamos o template html
+    return HttpResponse(template.render(contexto,request)) #montamos os html que sera retornado

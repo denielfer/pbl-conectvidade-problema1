@@ -1,3 +1,6 @@
+'''
+Arquivo que vem com o django
+'''
 """
 Django settings for Monitor project.
 

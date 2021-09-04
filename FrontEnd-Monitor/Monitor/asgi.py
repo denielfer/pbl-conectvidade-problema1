@@ -1,3 +1,6 @@
+'''
+Arquivo que vem com o django
+'''
 """
 ASGI config for Monitor project.
 

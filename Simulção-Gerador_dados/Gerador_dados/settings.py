@@ -1,3 +1,6 @@
+'''
+Arquivo que vem com o django
+'''
 """
 Django settings for Gerador_dados project.
 

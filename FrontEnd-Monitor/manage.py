@@ -1,3 +1,7 @@
+'''
+Arquivo que vem com o django
+'''
+
 #!/usr/bin/env python
 """Django's command-line utility for administrative tasks."""
 import os
