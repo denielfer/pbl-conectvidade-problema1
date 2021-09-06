@@ -13,13 +13,13 @@ port = 12500     #porta que o socket estara ouvindo
 def thread_main_socket_heandler(ip,port,pacientes):
     server_main_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server_main_socket.bind((ip, port)) #colocamoso  socket para ouvir no ip e porta informados
-    server_main_socket.listen(400) # quantidade de conecções na fila de espera
+    server_main_socket.listen(40000) # quantidade de conecções na fila de espera
     while True: #estaremos sempre
-        client_socket, adr = server_main_socket.accept() #aceitando conecções
         returned_msg = {"statusCode":404} # deixamos pre setado um retorno informand que a ação nao foi realizada
         data = {}
         #print(f'[SERVER] New Client: {adr}')
         try: 
+            client_socket, adr = server_main_socket.accept() #aceitando conecções
             msg = util.read_from_socket(client_socket) # tentamos efetua a leitura de 128 bytes no buffer
             sokt = None # criamos a variavel que tera o socket para a conecção com o cliente
             while(sokt==None): # enquanto nao houver um socket para o cliente
@@ -54,7 +54,8 @@ def thread_main_socket_heandler(ip,port,pacientes):
             print(f"[SERVER] {adr} foi aceito para: {msg['action']} -> {data['port']}")
         else:
             print(f"[SERVER] {adr} NÃO foi aceito")
-        client_socket.sendto( util.padding_mensage(returned_msg),adr) # enviamos a resposta
+        if(client_socket != None and adr != None):
+            client_socket.sendto( util.padding_mensage(returned_msg),adr) # enviamos a resposta
 
 def get_dados():
     return pacientes

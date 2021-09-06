@@ -46,6 +46,7 @@ def paciente_ação_socket(nome,dados,semafaro,adr,time):
             do_post_put_of_data((adr[0],port),nome,dados)    #fazemos o envio dos dados na porta recebida pelo servidor
         except:# caso hava algum erro tentaremos novamente, printa que nao foi poscivel enviar tal mensagem
             print(f"falha no envio {nome}")
+            sleep(.2)
             continue
         sleep(time)#caso tenhamos enviado a mensagem espera alguns instantes para enviar novamente
 

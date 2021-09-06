@@ -42,4 +42,4 @@ def api_get():
         return {},404
     
 
-app.run()
+app.run(host=f"{server_dinamic_socket.ip}", port=5000)

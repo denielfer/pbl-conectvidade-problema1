@@ -20,6 +20,14 @@ TEMPO_DE_ENVIO_EM_SEGUNDOS = 5 # de quanto em quanto tempo os dados serao enviad
 #inicia o objeto que é responsavel por maneja as threads de dispositivos
 dispositivos = Pacientes_threads(IP,BASE_PORT, sequencia_dados, TEMPO_DE_ENVIO_EM_SEGUNDOS)
 
+# for a in range(100):
+#     nome = a # gera um identificador aleatorio para o dispostivo
+#     while(nome in pacientes): # se o nome em uso gera outro ate achar um valido
+#         #caso esse identificador ja esteja me uso geramos outro ate nao estar mais
+#         nome = util.get_random_string(LENGTH_DO_IDENTIFICADOR)
+#     pacientes[nome]=[0 if(a=="number") else "" for a in TIPO_DOS_DADOS] # iniciamos os dados do dispositivo como 'nulos', o para numero e string vazia para nao numeros
+#     dispositivos.add_paciente(nome,pacientes[nome]) #adicionamos o dispostivo no gestor de dispositivos
+
 def go_home():
     return redirect("listar_pacientes")
     

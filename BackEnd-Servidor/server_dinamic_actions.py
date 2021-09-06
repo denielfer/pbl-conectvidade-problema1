@@ -21,6 +21,7 @@ def socket_sensor_action(pacients,sokt):
         #print(f'atualizando: {msg["paciente"]}, dados: {msg["dados"]}')
         pacients[msg["paciente"]] = msg["dados"] # tentamos salvar os dados que ele enviou
     except: # caso hava ecessao foi por envio erado do client
+        sokt.close()
         return
     pacients[msg["paciente"]]["prioridade"] = check_if_prioridade(msg["dados"]) # salvamos se a setuação do paciente é critica ou nao, salvando o nivel da sua preferencia
 #            resp["status"]=200
@@ -44,7 +45,7 @@ def socket_get_action(pacientes,sokt):
         clientsocket.send( bytes(msg, 'utf-8')) # enviamos os dados serealizados
         #print("enviando dados")
     except:
-        pass
+        sokt.close()
 
 def socket_sensor_delete(pacients,sokt):
     '''
@@ -58,7 +59,7 @@ def socket_sensor_delete(pacients,sokt):
         msg = util.read_from_socket(clientsocket,length=1024) # lemos a mensagem
         del(pacients[msg["paciente"]]) # tentamos remover o paciente informado
     except:
-        pass
+        sokt.close()
 
 def check_if_prioridade(dados_do_paciente):
     '''
