@@ -24,7 +24,7 @@
                         <form action="gerador/editar/{{nome}}/" method="POST">{% csrf_token %}
                             <td>{{nome}}</td>
                             {% for campo,dado,tipo_dado in dados %}
-                                <td>  <input name="{{campo}}" type="{{tipo_dado}}" value="{{ dado }}"  style="width: 95%; height: 40px;"> </td>
+                                <td>  <input name="{{campo}}" type="{{tipo_dado}}" value="{{ dado }}" step="0.01" style="width: 95%; height: 40px;"> </td>
                             {% endfor %}
                             <td> <input type="submit" value="Editar"> </td>
                         </form>

@@ -20,7 +20,7 @@
 </head>
 <body>
     <div style="display: flex; place-items:center;justify-content: center; flex-direction:row;">
-        <p>Mostra lista com: </p>
+        <p>Mostra lista de pacientes com: </p>
         <a href='/' style="margin-left:5px;margin-right: 5px;">
             <button style="width: 100px;height: 30px;">Todos</button>
         </a>
@@ -34,26 +34,17 @@
             <button style="width: 100px;height: 30px;">40</button>
         </a>
     </div>
-    <div style="display: flex; flex-direction: column;">
-        <table >
-            <thead>
-                <tr>
-                    <th style="margin-right: 10px;">Nome</th>
-                    {%for campo in campos%}
-                        <th style="margin-right: 10px;">{{campo}}</th>
-                    {% endfor %}        
-                </tr>        
-            </thead>
-            <tbody>
-                {% for nome,dados in nomes_dado %}
-                <tr onclick=window.open('/{{nome}}')>
-                    <td style="margin-right: 10px;">{{nome}}</td>
-                    {% for dado in dados %}
-                        <td style="margin-right: 10px;">{{dado}}</td>
-                    {% endfor %}
-                </tr>
-                {% endfor %}
-            </tbody>
+    <div >
+        <table style="display: flex; place-items:center;justify-content: center; flex-direction:column;">
+            {% for tipo,dado in dados %}
+            <tr>
+                <th>{{tipo}}</th>
+                <td>{{dado}}</td>            
+            </tr>
+            <tr></tr>
+            <tr></tr>
+            <tr></tr>
+            {%endfor%}    
         </table>
     </div>
     <script type="text/javascript">
