@@ -57,11 +57,9 @@ def thread_main_socket_heandler(ip,port,pacientes):
         if(client_socket != None and adr != None):
             client_socket.sendto( util.padding_mensage(returned_msg),adr) # enviamos a resposta
 
-def get_dados():
-    return pacientes
-if(__name__=="__main__"):
+if(__name__=="__main__"): # se esse arquivo é rodado como principal criamos uma thread que roda a função
     threading.Thread(target=thread_main_socket_heandler,args=(ip,port,pacientes)).start()
-else:
+else:# se importado criamos uma thread com atributo daemon = True, para que essa thread nao impeça o programa de encerra caso as main threads encerrem. ( no python um programa é finalizado quando nao existem mais no-daemon threads sendo executadas)
     thread = threading.Thread(target=thread_main_socket_heandler,args=(ip,port,pacientes))
     thread.setDaemon(True)
     thread.start() 
