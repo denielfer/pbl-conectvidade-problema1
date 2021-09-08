@@ -4,8 +4,8 @@ from . import util
 
 decoder = json.JSONDecoder()
 
-ip = "26.181.221.42"
-BASE_PORT = 12500
+ip = "26.181.221.42" #ip da maquina que esta rodando o servidor (backend)
+BASE_PORT = 12500 #porta base para o serviço do servidor (backend)
 
 def get_dados():
     '''

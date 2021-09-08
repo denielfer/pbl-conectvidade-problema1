@@ -6,8 +6,8 @@ import requests
 REFRESH_TIME_IN_MS = 1*1000 # de quanto em quanto tempo atualizaremos os dados na interfacie
 DADOS_FROM_DEVICE=["preção","oxigenação","frequencia","temperatura","prioridade"] # quais os dados sao esperados que o dispositivo tenha
 
-ip = "26.181.221.42"
-port = 5000
+ip = "26.181.221.42" #ip da maquina que esta rodando a API
+port = 5000 #porta base para a API
 
 def show_data(request):
     try:
