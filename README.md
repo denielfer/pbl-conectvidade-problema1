@@ -28,15 +28,14 @@
     python3 .\BackEnd-Servidor\API.py
 
 4.2 - inicia Simulção-Gerador_dados:
- Em um terminal inicio o sistema com:
+ Em um terminal inicio o sistema com: (colocando o ip no qual o server do projeto django vai fica em: __my_ip__ e a porta em: __porta__ )
     
     python3 .\Simulção-Gerador_dados\manage.py runserver __my_ip__:__porta__
    
       
 4.3 - inicia FrontEnd-Monitor:
     
- Em um terminal inicio o sistema com:
-      
+ Em um terminal inicio o sistema com: (colocando o ip no qual o server do projeto django vai fica em: __my_ip__ e a porta em: __porta__ )
     
     python3 .\FrontEnd-Monitor\manage.py runserver __my_ip__:__porta__
     
