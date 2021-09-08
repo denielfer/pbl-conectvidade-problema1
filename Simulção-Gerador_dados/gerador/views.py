@@ -4,10 +4,10 @@ from django.template import loader
 from .pacient_thread import Pacientes_threads
 from . import util
 
-IP = "26.181.221.42"
-BASE_PORT = 12500
-LENGTH_DO_IDENTIFICADOR = 10
+IP = "26.181.221.42" #ip da maquina que esta rodando o servidor (backend)
+BASE_PORT = 12500 #porta base para o serviço do servidor (backend)
 
+LENGTH_DO_IDENTIFICADOR = 10
 #objeto onde sera mantido o dados internamente dos paciente no 
 #   gerador para serem enviados para o servidor
 pacientes = {} # consiste em um dicionario com a chave o identificador e nos dados é guardado um vetor dos dados do paciente seguindo a ordem {sequencia_dados}
