@@ -51,3 +51,5 @@ O segundo é o botao para o caso se deseje remover este dispositivo do sistema, 
 E por ultimo aqui temos um exemplo do sistema com 2 dispositvos, para mostra que o botao adiciona pode ser precionado quantas vezes for desejado para adiciona mais dispositivos ao sistema.
 
 Estes disposistivos tem seus dados enviados a cada 1s para o BackEnd e caso haja uma falha de comunicação ele espera um tempo aleatorio entre 0 a 1s para tenta realiza o reenvio ( isso foi feito para evitar bust de envios no caso de mutiplas falha de envio)
+
+![Alt Text](imagens/simulador_com_pacientes.png)
