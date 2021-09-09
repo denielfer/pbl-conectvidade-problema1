@@ -1,24 +1,19 @@
 import util
 from time import sleep
 import json
+import socket
 
 pickle = json.JSONEncoder()
 
-def socket_sensor_action(pacients,sokt):
+def socket_sensor_action(pacients:dict,sokt:socket,msg:dict) -> None:
     '''
-    Função da thread para os sockets de POST e PUT
+    Função da thread para lida com POST e PUT
 
     @param pacientes: dicionario contendo o objeto que guarda os pacientes no sistema
     @param sokt: socket que essa thread estara responsavel por lida
+    @param msg dicionario sendo o header da mensagem enviada pelo cliente
     '''
-    # A PRIMIERA MENSAGEM DEVE CONTER {"lenght":length_da_proxima_mensagem} 
-    # o que por padrao deixa com 512-27=485 bytes para o inteiro representando
-    # {length_da_proxima_mensagem}
     try:
-        (clientsocket, address) = sokt.accept()# aceitamos a conecção do cliente
-        msg = util.read_from_socket(clientsocket,length=1024) # lemos a mensagem que ele enviou
-#        resp = {"status":400}
-        #print(f'atualizando: {msg["paciente"]}, dados: {msg["dados"]}')
         pacients[msg["paciente"]] = msg["dados"] # tentamos salvar os dados que ele enviou
     except: # caso hava ecessao foi por envio erado do client
         sokt.close()
@@ -28,47 +23,43 @@ def socket_sensor_action(pacients,sokt):
 #        resp = util.padding_mensage( pickle.encode(resp) )
 #        clientsocket.send(bytes(resp, 'utf-8'))
 
-def socket_get_action(pacientes,sokt):
+def socket_get_action(pacientes:dict,sokt:socket,adr:tuple) -> None:
     '''
     Função da thread para os sockets de GET
 
     @param pacientes: dicionario contendo o objeto que guarda os pacientes no sistema
     @param sokt: socket que essa thread estara responsavel por lida
+    @param msg dicionario sendo o header da mensagem enviada pelo cliente
     '''
     try:
-        (clientsocket, address) = sokt.accept() # aceitamos a conecção
-        #print("aceito")
+        sleep(.01)
         msg = pickle.encode(pacientes) # serealizamos os dados a serem enviados
-        #print("encoded")
-        clientsocket.send( util.padding_mensage(len(msg) ) ) # enviamos o tamanho da proxima mensagem que contera os dadso serealizados
-        #print("enviando length")
-        clientsocket.send( bytes(msg, 'utf-8')) # enviamos os dados serealizados
-        #print("enviando dados")
+        sokt.sendto( util.padding_mensage(len(msg),128 ),adr ) # enviamos o tamanho da proxima mensagem que contera os dadso serealizados
+        sokt.sendto( bytes(msg, 'utf-8'),adr) # enviamos os dados serealizados
     except:
         sokt.close()
 
-def socket_sensor_delete(pacients,sokt):
+def socket_sensor_delete(pacients:dict,sokt:socket,msg:dict) -> None:
     '''
     Função da thread para os sockets de DELETE
 
     @param pacientes: dicionario contendo o objeto que guarda os pacientes no sistema
     @param sokt: socket que essa thread estara responsavel por lida
+    @param msg dicionario sendo o header da mensagem enviada pelo cliente
     '''
     try:
-        (clientsocket, address) = sokt.accept() # aceitamos a conecção
-        msg = util.read_from_socket(clientsocket,length=1024) # lemos a mensagem
         del(pacients[msg["paciente"]]) # tentamos remover o paciente informado
     except:
         sokt.close()
 
-def check_if_prioridade(dados_do_paciente):
+def check_if_prioridade(dados_do_paciente:dict) -> int:
     '''
     Verifica se o paciente esta em estado critico com base nos dados
 
     @param dados_do_pacient, dicionario, com os dados do pacientes
 
     Esses dados devem conter: 
-        "preção", que representa a preção maxima medida deve ser um int, 
+        "pressão", que representa a pressão maxima medida deve ser um int, 
             é considerado critico se menor que 100, 
         "oxigenação", int representando a % de oxigenação no sangue, 
             critico se menor que 96
@@ -79,7 +70,7 @@ def check_if_prioridade(dados_do_paciente):
             se maior que 38 
     '''
     cont = 0
-    if (dados_do_paciente["preção"]<100):
+    if (dados_do_paciente["pressão"]<100):
         cont+=1
     if(dados_do_paciente["oxigenação"]<96):
         cont+=1

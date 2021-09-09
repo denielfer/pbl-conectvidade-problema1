@@ -4,15 +4,19 @@ from . import socke_handler
 import requests
 
 REFRESH_TIME_IN_MS = 1*1000 # de quanto em quanto tempo atualizaremos os dados na interfacie
-DADOS_FROM_DEVICE=["preção","oxigenação","frequencia","temperatura","prioridade"] # quais os dados sao esperados que o dispositivo tenha
+DADOS_FROM_DEVICE=["pressão","oxigenação","frequencia","temperatura","prioridade"] # quais os dados sao esperados que o dispositivo tenha
 
 ip = "26.181.221.42" #ip da maquina que esta rodando a API
 port = 5000 #porta base para a API
 
+def get_pacientes():
+    pacients = socke_handler.get_dados() # tenta pegar dados do sistema atravez do socekt
+    # pacients = requests.get(f"http://{ip}:{port}/").json() # tenta pega dados do sistema atravez da API
+    return pacients
+
 def show_data(request):
     try:
-        #pacients = socke_handler.get_dados() # tenta pegar dados do sistema atravez do socekt
-        pacients = requests.get(f"http://{ip}:{port}/").json() # tenta pega dados do sistema atravez da API
+        pacients = get_pacientes() # chama função que traz os dadados pro sistema
         template = loader.get_template("pacients_list.html") #carega o arquivo html que sera enviado como resposta
         #print("using data")
         #criamos variaveis que serao usadas pelo django para monta o html
@@ -27,9 +31,8 @@ def show_data(request):
         return HttpResponse(template.render({"tempo_espera":REFRESH_TIME_IN_MS},request))
 
 def show_data_in_page(request,num_pagina,num_pacientes):
-    # try:
-        #pacients = socke_handler.get_dados() # tenta pegar dados do sistema atravez do socekt
-        pacients = requests.get(f"http://{ip}:{port}/").json() # tenta pega dados do sistema atravez da API
+    try:
+        pacients = get_pacientes() # chama função que traz os dadados pro sistema
         template = loader.get_template("alguns_pacientes.html") #carega o arquivo html que sera enviado como resposta
         #print("using data")
         #criamos variaveis que serao usadas pelo django para monta o html
@@ -49,14 +52,13 @@ def show_data_in_page(request,num_pagina,num_pacientes):
                     "pagina_anterior":num_pagina-1,
                     "num_pagina":num_pagina+1}
         return HttpResponse(template.render(context,request)) # retornamos os html criado
-    # except: # caso haja erro carregamos um html para informa que nao foi poscivel se conectar ao seridor
-    #     template = loader.get_template("server_off.html")
-    #     return HttpResponse(template.render({"tempo_espera":REFRESH_TIME_IN_MS},request))
+    except: # caso haja erro carregamos um html para informa que nao foi poscivel se conectar ao seridor
+        template = loader.get_template("server_off.html")
+        return HttpResponse(template.render({"tempo_espera":REFRESH_TIME_IN_MS},request))
 
 def show_paciente(request,paciente_nome):
     try:
-        #pacients = socke_handler.get_dados() # tenta pegar dados do sistema atravez do socekt
-        pacients = requests.get(f"http://{ip}:{port}/").json() # tenta pega dados do sistema atravez da API
+        pacients = get_pacientes() # chama função que traz os dadados pro sistema
         try:
         #     print(paciente_nome)
         #     print([a for a in pacients])

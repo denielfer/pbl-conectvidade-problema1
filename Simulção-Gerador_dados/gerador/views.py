@@ -12,7 +12,7 @@ LENGTH_DO_IDENTIFICADOR = 10
 #   gerador para serem enviados para o servidor
 pacientes = {} # consiste em um dicionario com a chave o identificador e nos dados é guardado um vetor dos dados do paciente seguindo a ordem {sequencia_dados}
 #Qual os codigos dos dados no servidor que os dados terao
-sequencia_dados=["preção", "oxigenação", "frequencia","temperatura"]
+sequencia_dados=["pressão", "oxigenação", "frequencia","temperatura"]
 #Qual o type do campo no HTML que esse dado deve ter
 TIPO_DOS_DADOS=['number',"number","number","number"] #"text"
 TEMPO_DE_ENVIO_EM_SEGUNDOS = 5 # de quanto em quanto tempo os dados serao enviados
@@ -42,6 +42,7 @@ def add_paciente(request):
             #caso esse identificador ja esteja me uso geramos outro ate nao estar mais
             nome = util.get_random_string(LENGTH_DO_IDENTIFICADOR)
         pacientes[nome]=[0 if(a=="number") else "" for a in TIPO_DOS_DADOS] # iniciamos os dados do dispositivo como 'nulos', o para numero e string vazia para nao numeros
+        print("dfc0")
         dispositivos.add_paciente(nome,pacientes[nome]) #adicionamos o dispostivo no gestor de dispositivos
     return go_home() # redirecionamos o request para home page
 

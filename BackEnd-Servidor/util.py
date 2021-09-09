@@ -3,7 +3,7 @@ import json
 encoder = json.JSONEncoder()
 decoder = json.JSONDecoder()
 
-INITIAL_PACKAGE_LENGTH = 128
+INITIAL_PACKAGE_LENGTH = 1100
 
 def read_from_socket(sokt,length=INITIAL_PACKAGE_LENGTH):
     '''
@@ -35,4 +35,6 @@ def padding_mensage(returned_msg,length=INITIAL_PACKAGE_LENGTH):
     '''
     msg = encoder.encode(returned_msg)#serealiza a os dados
     msg = bytes(msg, 'utf-8')#transforma em uma string binaria
+    if( len(msg) > length):
+        raise("mensagem maior que o tamanho defindo")
     return msg+ (b' '*(length-len(msg)))#retorna a string binaria com um padding ( adicionando b" " na string ate chegar ao tamanho informado)
