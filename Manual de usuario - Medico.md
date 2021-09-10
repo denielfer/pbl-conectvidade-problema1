@@ -30,6 +30,8 @@ Na quarta temos o campo 'frequencia', que indica a frequencia respiratoria do pa
 
 Na quinta temos o campo 'temperatura' que indica a temperatura corporal medida pelo dispositivo no instante em ºC.
 
+Na sexta linha temos o campo 'prioridade' que indica a gravidade do paciente, neste campo temos um numero que quanto maior mais grave.  [Mais informações](https://www.hospitaldaluz.pt/pt/guia-de-saude/saude-e-bem-estar/220/com-covid-19-a-que-estar-atento)
+
 E entao a cada linha da tabela temos um paciente com suas respectivas informações sendo mostradas, como se pode ver na imagem apresentada acima.
 
 É importante dizer que esta todas as paginas do sistema atualizam de 1s em 1s para tenta evitar que o medico esteja vendo informações muito antigas, assim na pagina que mostra todos os paciente ( caso haja um numero grande de pacientes ) a vizualização pode ser prejudicada, para tal foi feito a opção de mostra pacientes de x em x por pagina.
