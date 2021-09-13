@@ -8,20 +8,12 @@ app = Flask(__name__)
 
 decoder = JSONDecoder()
 
-def get_dados():
-    '''
-    Esta função tenta se conectar com o servirdo especificado nas constantes {IP} na porta {BASE_PORT} e retorna o conjunto de pacientes daquele sistema
-
-    @return, dicionario, contendo o conjunto de pacientes do sistema
-
-    @raise Exception se a conecção nao for aceita pelo server ou quebrada por qualquer motivo
-
-    Esta função pode gerar erro de timeout caso o servidor demore mais de 60 para responder e de uma exception caso a conecção nao seja aceita.
-    '''
-
-
 @app.route('/', methods=['GET'])
 def api_get():
+    '''
+        Função que retorna uma reposta json contendo os pacientes do sistema
+        Ela faz um request atravez de sockets para o backend e então repassa para quem fez o request para essa API
+    '''
     try:
         server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)#criamso o socket
         server_socket.connect((server_dinamic_socket.ip,server_dinamic_socket.port))#tentamos nos conectar com o servidor
@@ -33,9 +25,7 @@ def api_get():
             msg_b = str(server_socket.recv(length),'utf-8')#lemos os dados dos pacientes
             server_socket.close()#fechamos a conecção
             return decoder.decode(msg_b),200 #retornamos os dados em um json com o codigo 200
-            #print ('recebidos: \n', data)
         else:    #caso a conecção seja recusada
-    #        print("Conexão recusada")
             return {},404
     except:
         return {},404

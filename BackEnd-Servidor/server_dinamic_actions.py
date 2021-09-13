@@ -15,13 +15,9 @@ def socket_sensor_action(pacients:dict,sokt:socket,msg:dict) -> None:
     '''
     try:
         pacients[msg["paciente"]] = msg["dados"] # tentamos salvar os dados que ele enviou
+        pacients[msg["paciente"]]["prioridade"] = check_if_prioridade(msg["dados"]) # salvamos se a situação do paciente é critica ou nao, salvando o nivel da sua prioridade
     except: # caso hava ecessao foi por envio erado do client
         sokt.close()
-        return
-    pacients[msg["paciente"]]["prioridade"] = check_if_prioridade(msg["dados"]) # salvamos se a setuação do paciente é critica ou nao, salvando o nivel da sua preferencia
-#            resp["status"]=200
-#        resp = util.padding_mensage( pickle.encode(resp) )
-#        clientsocket.send(bytes(resp, 'utf-8'))
 
 def socket_get_action(pacientes:dict,sokt:socket,adr:tuple) -> None:
     '''

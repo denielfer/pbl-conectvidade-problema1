@@ -29,6 +29,9 @@ dispositivos = Pacientes_threads(IP,BASE_PORT, sequencia_dados, TEMPO_DE_ENVIO_E
 #     dispositivos.add_paciente(nome,pacientes[nome]) #adicionamos o dispostivo no gestor de dispositivos
 
 def go_home():
+    '''
+        Função que faz um redirect para a pagina inicial ( isso é usado para redireciona requestes para outros rotas para a pagina inicial )
+    '''
     return redirect("listar_pacientes")
     
 def add_paciente(request):
@@ -49,6 +52,8 @@ def add_paciente(request):
 def editar_paciente(request,nome):
     '''
     Função que lida com a edição do paciente
+ 
+    @param nome corresponde ao codigo de identificação do dispositivo do paciente no sistema
     '''
     if(nome in pacientes and request.method == 'POST'):# se post
         try:
@@ -64,6 +69,8 @@ def editar_paciente(request,nome):
 def remove_paciente(request,nome):
     '''
     função que lida com a remoção de paciente
+
+    @param nome corresponde ao codigo de identificação do dispositivo do paciente no sistema
     '''
     if( nome in pacientes and request.method == 'POST'):# se POST
         try:

@@ -83,6 +83,12 @@ def do_delete_of_data(adr:tuple,nome:str)->None:
     s.close()#fechamos a conecção com o socket
 
 def get_mensagem(action:str,data:dict) -> bytes:
+    '''
+    Esta função recebe as strings contendo a ação desejada e os dados que serao enviados para o request e retorna uma b-strign (string em bynario) que sera sera enviada pelo socket
+
+    @param action: str contendo a ação desejada ('GET', 'POST', 'PUT','Delete')
+    @param data: dicionario contendo os dados que serão enviados
+    '''
     msg = {'action':action,'headers':data}
     msg = util.padding_mensage( msg )
     return msg

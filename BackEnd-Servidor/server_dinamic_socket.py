@@ -1,6 +1,5 @@
 import socket
 import server_dinamic_actions
-from time import sleep
 import util
 import threading
 

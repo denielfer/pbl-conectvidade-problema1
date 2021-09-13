@@ -5,7 +5,7 @@ decoder = json.JSONDecoder()
 
 INITIAL_PACKAGE_LENGTH = 128
 
-def read_from_socket(sokt,length=INITIAL_PACKAGE_LENGTH):
+def read_from_socket(sokt,length:int=INITIAL_PACKAGE_LENGTH):
     '''
     Essa função retorna um dicionario que é construido com base no vetor de 
         bytes presente no buffer do {sokt}, pegando um tamanho {length}
@@ -26,7 +26,7 @@ def read_from_socket(sokt,length=INITIAL_PACKAGE_LENGTH):
         return {}
     return decoder.decode(msg_bytes)#retorna os dados do buffer decodificados
 
-def padding_mensage(returned_msg,length=INITIAL_PACKAGE_LENGTH):
+def padding_mensage(returned_msg,length:int=INITIAL_PACKAGE_LENGTH):
     '''
     Essa função da um padding na mensagem ate ela ter {length} de tamanho
 
@@ -38,7 +38,7 @@ def padding_mensage(returned_msg,length=INITIAL_PACKAGE_LENGTH):
     return msg+ (b' '*(length-len(msg)))#retorna a string binaria com um padding ( adicionando b" " na string ate chegar ao tamanho informado)
 
 
-def check_if_prioridade(dados_do_paciente):
+def check_if_prioridade(dados_do_paciente:dict):
     '''
     Verifica se o paciente esta em estado critico com base nos dados
 
