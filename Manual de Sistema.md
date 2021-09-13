@@ -11,7 +11,7 @@
   
       pip install -r requirements.txt
       
-4 - alterar o IP e PORTA que serao usados    
+4 - alterar o IP e PORTA que serao usados ( CASO NESCESSARIO )
 
 É nescessario antes de começa o sistema altera o IP, e portas caso nescessario ou queria, que indica a localização da maquina do servidor
   
