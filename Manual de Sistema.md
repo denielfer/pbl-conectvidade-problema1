@@ -3,13 +3,14 @@
   
 2 - Crie um ambiente virtual e inicie ele. [Mais informações](https://docs.python.org/3/library/venv.html)
   
-      python3 -m venv /path/to/new/virtual/environment
-      /path/to/new/virtual/environment\Scripts\activate
+      python3 -m venv env
+      env\Scripts\activate
 
     
 3 - Instale os requesitos nescessarios no requirements.txt
   
       pip install -r requirements.txt
+      
 4 - alterar o IP e PORTA que serao usados    
 
 É nescessario antes de começa o sistema altera o IP, e portas caso nescessario ou queria, que indica a localização da maquina do servidor
