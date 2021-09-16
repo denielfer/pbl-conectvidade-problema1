@@ -4,7 +4,7 @@ from . import thread_atualizadora_de_dados
 
 REFRESH_TIME_IN_S = 1
 REFRESH_TIME_IN_MS = REFRESH_TIME_IN_S*1000 # de quanto em quanto tempo atualizaremos os dados na interfacie
-DADOS_FROM_DEVICE=["pressão","oxigenação","frequencia","temperatura","prioridade"] # quais os dados sao esperados que o dispositivo tenha
+DADOS_FROM_DEVICE=["pressão","oxigenação","frequencia","temperatura","prioridade","Estado"] # quais os dados sao esperados que o dispositivo tenha
 
 thread_atualizadora_de_dados.init_thread_update_pacientes(DADOS_FROM_DEVICE,REFRESH_TIME_IN_S)
 
