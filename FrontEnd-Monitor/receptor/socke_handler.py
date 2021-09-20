@@ -18,6 +18,7 @@ def get_dados():
     Esta função pode gerar erro de timeout caso o servidor demore mais de 60 para responder e de uma exception caso a conecção nao seja aceita.
     '''
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)#criamso o socket
+    server_socket.settimeout(10)
     server_socket.connect((ip,BASE_PORT))#tentamos nos conectar com o servidor
     request = {'action':'GET','headers':{}}#objeto que sera enviado
     server_socket.send( util.padding_mensage(request) )#enviamos a ação desejada

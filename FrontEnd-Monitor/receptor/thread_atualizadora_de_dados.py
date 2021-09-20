@@ -38,7 +38,7 @@ def update_pacientes(DADOS_FROM_DEVICE:list,Tempo_de_espera_s:float):
             lista_dados_por_paciente_t.sort(reverse=True,key=lambda x:x[1][4]) # oredenamos a lista de pacientes
             dados_salvos.lista_dados_por_paciente = lista_dados_por_paciente_t
             dados_salvos.is_server_on = True
-        except ConnectionRefusedError: # caso haja erro carregamos um html para informa que nao foi poscivel se conectar ao seridor
+        except: # caso haja erro carregamos um html para informa que nao foi poscivel se conectar ao seridor
             dados_salvos.is_server_on = False
         sleep(Tempo_de_espera_s)
 
