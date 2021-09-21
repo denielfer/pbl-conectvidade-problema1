@@ -14,9 +14,9 @@ def socket_sensor_action(pacients:dict,sokt:socket,msg:dict) -> None:
     @param msg dicionario sendo o header da mensagem enviada pelo cliente
     '''
     try:
+        msg["dados"]["prioridade"] = check_if_prioridade(msg["dados"]) # salvamos se a situação do paciente é critica ou nao, salvando o nivel da sua prioridade
+        msg["dados"]["Estado"] = "Grave" if msg["dados"]["prioridade"]!=0 else "Normal"
         pacients[msg["paciente"]] = msg["dados"] # tentamos salvar os dados que ele enviou
-        pacients[msg["paciente"]]["prioridade"] = check_if_prioridade(msg["dados"]) # salvamos se a situação do paciente é critica ou nao, salvando o nivel da sua prioridade
-        pacients[msg["paciente"]]["Estado"] = "Grave" if pacients[msg["paciente"]]["prioridade"]!=0 else "Normal"
     except: # caso hava ecessao foi por envio erado do client
         sokt.close()
 
